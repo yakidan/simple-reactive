@@ -44,7 +44,7 @@ public interface Publisher<T> {
         return new ParallelPublisher<>(this, parallelism);
     }
 
-    default List<T> block() {
+    default List<T> collect() {
         CollectingSubscriber<T> sub = new CollectingSubscriber<>();
         subscribe(sub);
         return sub.blockingGet();

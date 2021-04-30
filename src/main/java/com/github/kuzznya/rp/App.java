@@ -15,7 +15,7 @@ public class App {
         List<Integer> result = Publisher.just(1, 2, 3)
                 .map(i -> i + 1)
                 .peek(System.out::println)
-                .block();
+                .collect();
         System.out.println(result);
 
         var p = Publisher.from(() -> {
@@ -23,7 +23,7 @@ public class App {
             return "Test";
         });
         System.out.println("I was called earlier");
-        var result2 = p.block();
+        var result2 = p.collect();
         System.out.println(result2);
 
         log.info("Creating parallel publisher");
@@ -38,6 +38,6 @@ public class App {
                     return i;
                 })
                 .peek(v -> log.info("{}", v))
-                .block();
+                .collect();
     }
 }
