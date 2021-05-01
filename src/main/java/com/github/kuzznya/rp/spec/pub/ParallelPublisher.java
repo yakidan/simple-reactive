@@ -5,6 +5,7 @@ import com.github.kuzznya.rp.spec.Subscriber;
 import com.github.kuzznya.rp.spec.Subscription;
 import lombok.RequiredArgsConstructor;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class ParallelPublisher<T> implements Publisher<T> {
 
     private final Publisher<T> upstream;
-    private final ThreadPoolExecutor executor;
+    private final ExecutorService executor;
 
     public ParallelPublisher(Publisher<T> upstream, int poolSize) {
         this.upstream = upstream;
@@ -36,12 +37,12 @@ public class ParallelPublisher<T> implements Publisher<T> {
 
         @Override
         public void onNext(T value) {
-            executor.execute(() -> subscriber.onNext(value));
+            executor.submit(() -> subscriber.onNext(value));
         }
 
         @Override
         public void onComplete() {
-            executor.execute(subscriber::onComplete);
+            executor.submit(subscriber::onComplete);
             executor.shutdown();
         }
     }

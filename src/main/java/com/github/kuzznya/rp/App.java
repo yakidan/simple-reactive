@@ -38,6 +38,16 @@ public class App {
                     return i;
                 })
                 .peek(v -> log.info("{}", v))
+                .parallel(1)
+                .map(i -> {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return i;
+                })
+                .peek(v -> log.info("{}", v))
                 .collect();
     }
 }
