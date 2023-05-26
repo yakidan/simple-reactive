@@ -18,6 +18,10 @@ public class App {
                 .collect();
         System.out.println(result);
 
+        var resultFlatMap =
+            Publisher.just(List.of(1, 2, 3), List.of(4, 5, 6), List.of(7, 8, 9)).flatMap().collect();
+        System.out.println(resultFlatMap);
+
         var p = Publisher.from(() -> {
             System.out.println("I was called");
             return "Test";

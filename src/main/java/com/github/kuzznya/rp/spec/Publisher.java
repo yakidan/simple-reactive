@@ -1,6 +1,7 @@
 package com.github.kuzznya.rp.spec;
 
 import com.github.kuzznya.rp.spec.pub.DeferredPublisher;
+import com.github.kuzznya.rp.spec.pub.FlatMapPublisher;
 import com.github.kuzznya.rp.spec.pub.JustPublisher;
 import com.github.kuzznya.rp.spec.pub.MapPublisher;
 import com.github.kuzznya.rp.spec.pub.ParallelPublisher;
@@ -53,5 +54,9 @@ public interface Publisher<T> {
     default void consume(Consumer<T> consumer) {
         ConsumingSubscriber<T> subscriber = new ConsumingSubscriber<>(consumer);
         subscribe(subscriber);
+    }
+
+    default <R> Publisher<R> flatMap() {
+        return new FlatMapPublisher<>(this);
     }
 }
